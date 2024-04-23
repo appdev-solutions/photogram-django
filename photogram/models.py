@@ -3,8 +3,6 @@ from accounts.models import User
 
 class Photo(models.Model):
     image = models.CharField(max_length=200)
-    comments_count = models.IntegerField(default=0)
-    likes_count = models.IntegerField(default=0)
     caption = models.TextField(blank=True, null=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="own_photos")
     created_at = models.DateTimeField(auto_now_add=True)
