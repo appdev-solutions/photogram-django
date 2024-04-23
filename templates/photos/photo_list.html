@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Photos</h1>
+
+<table border="1">
+    <tr>
+        <th>
+            ID
+        </th>
+
+        <th>
+            Image
+        </th>
+
+        <th>
+            Caption
+        </th>
+
+        <th>
+            Owner
+        </th>
+    </tr>
+    {% for photo in photo_list %}
+
+    <tr>
+        <td>
+            {{ photo.pk }}
+        </td>
+
+        <td>
+            <img src="{{ photo.image }}" style="width:250px;">
+        </td>
+
+        <td>
+            {{ photo.caption }}</a>
+        </td>
+
+        <td>
+            {{ photo.owner }}
+        </td>
+    </tr>
+    {% endfor %}
+{% endblock content %}
