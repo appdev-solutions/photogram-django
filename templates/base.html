@@ -6,6 +6,30 @@
   </head>
   <body>
     <main>
+      <nav>
+        {% if user.is_authenticated %}
+          <div>
+            Welcome, {{ user.username }}!
+            |
+            <a href="{% url 'logout' %}">
+              Log Out
+            </a>
+          </div>
+        {% else %}
+          <div>
+            You are not logged in.
+            |
+            <a href="{% url 'login' %}">
+              Log In
+            </a>
+            |
+            <a href="{% url 'signup' %}">
+              Sign Up
+            </a>
+          </div>
+        {% endif %}
+      </nav>
+
       {% block content %}
       {% endblock %}
     </main>
