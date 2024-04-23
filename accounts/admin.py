@@ -10,6 +10,6 @@ class CustomUserAdmin(UserAdmin):
     model = User
     list_display = ["email", "username", "name", "private", "is_staff"]
     fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("name", "private",)}),)
-    add_fieldsets = UserAdmin.add_fieldsets + ((None, {"fields": ("name", "private",)}),)
+    add_fieldsets = UserAdmin.add_fieldsets + ((None, {"fields": ("email", "name", "private",)}),)
 
 admin.site.register(User, CustomUserAdmin)
