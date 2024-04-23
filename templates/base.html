@@ -11,6 +11,10 @@
           <div>
             Welcome, {{ user.username }}!
             |
+            <a href="{% url 'edit_profile' %}">
+              Edit profile
+            </a>
+            |
             <a href="{% url 'logout' %}">
               Log Out
             </a>
