@@ -14,5 +14,6 @@ class UserEditView(LoginRequiredMixin, UpdateView):
     template_name = "registration/edit_profile.html"
     success_url = reverse_lazy("edit_profile")
 
+    # Used to ensure that the currently logged-in user is updated
     def get_object(self, queryset=None):
         return self.request.user
