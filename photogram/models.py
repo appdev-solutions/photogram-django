@@ -10,6 +10,9 @@ class Photo(models.Model):
 
     def __str__(self):
         return self.image
+    
+    def fans(self):
+        return User.objects.filter(likes__photo=self)
 
 class Like(models.Model):
     fan = models.ForeignKey(User, on_delete=models.CASCADE, related_name="likes")
