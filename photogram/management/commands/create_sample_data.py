@@ -34,6 +34,9 @@ class Command(BaseCommand):
 
         for first_user in users:
             for second_user in users:
+                if first_user == second_user:
+                    break
+
                 if random.random() < 0.75:
                     FollowRequest.objects.create(
                         sender=first_user,
