@@ -4,6 +4,7 @@ from django.db import models
 class User(AbstractUser):
     name = models.CharField(max_length=150)
     private = models.BooleanField(default=True)
+    avatar_image = models.CharField(max_length=200, blank=True, null=True)
 
     def liked_photos(self):
         # to prevent circular imports (User is imported in our other models file)
