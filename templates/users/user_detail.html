@@ -4,5 +4,14 @@
 <h1>
     {{ user.username }}
 </h1>
+
+<h2>Own photos</h2>
+
+<ul>
+  {% for photo in user.own_photos.all %}
+  <li>
+      <img src="{{ photo.image }}">
+  </li>
+  {% endfor %}
+</ul>
 {% endblock content %}
-  
