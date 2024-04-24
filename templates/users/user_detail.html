@@ -8,10 +8,40 @@
 <h2>Own photos</h2>
 
 <ul>
-  {% for photo in user.own_photos.all %}
-  <li>
-      <img src="{{ photo.image }}">
-  </li>
-  {% endfor %}
+    {% for photo in user.own_photos.all %}
+    <div class="row mb-4">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <img src="{{ photo.image }}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{ photo.owner.username }}</h5>
+                    <p class="card-text">{{ photo.caption }}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for comment in photo.comments.all %}
+                    <li class="list-group-item">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <img src="{{ comment.author.avatar_image }}" class="rounded-circle mr-2" width="36px">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h5 class="mt-0">
+                                    {{ comment.author.username }}
+                                </h5>
+                                <p>
+                                    {{ comment.body }}
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="card-body">
+                    <a href="#" class="card-link">Add comment</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 </ul>
 {% endblock content %}
