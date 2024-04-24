@@ -4,7 +4,7 @@ from django.views.generic import (
 from django.urls import reverse
 from .models import Photo
 from accounts.models import User
-from .forms import PhotoForm
+from .forms import PhotoForm, CommentForm
 
 class PhotoListView(ListView):
     model = Photo
@@ -40,3 +40,17 @@ class UserDetailView(DetailView):
     context_object_name = "user"
     slug_field = "username"
     slug_url_kwarg = "username"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = CommentForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.photo = Photo.objects.get(id=request.POST.get("photo_id"))
+            comment.save()
+        return super().get(request, *args, **kwargs)
