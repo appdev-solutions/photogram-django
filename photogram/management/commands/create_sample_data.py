@@ -17,7 +17,7 @@ class Command(BaseCommand):
         Photo.objects.all().delete()
         User.objects.all().delete()
 
-        people = ["Alice", "Bob", "Carol", "Doug"]
+        people = ["Alice", "Bob", "Carol", "Doug", "Eve", "Hank"]
 
         for person in people:
             user = User.objects.create(
@@ -53,10 +53,10 @@ class Command(BaseCommand):
                 )
 
                 for follower in user.followers():
-                    if random.random() < 0.5:
+                    if random.random() < 0.75:
                         Like.objects.create(photo=photo, fan=follower)
 
-                    if random.random() < 0.25:
+                    if random.random() < 0.5:
                         Comment.objects.create(
                             body=faker.text(),
                             photo=photo,
