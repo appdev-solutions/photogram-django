@@ -6,7 +6,7 @@
     {% include "./cdn_assets.html" %}
   </head>
   <body>
-    {% include "./navbar.html" %}
+    {% include "./navbar.html" with user=request.user %}
 
     <div class="container">
       {% block content %}
