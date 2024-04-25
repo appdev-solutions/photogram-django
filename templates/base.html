@@ -9,6 +9,7 @@
     {% include "./navbar.html" with user=request.user %}
 
     <div class="container">
+      {% include "./messages.html" %}
       {% block content %}
       {% endblock %}
     </div>

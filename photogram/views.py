@@ -5,6 +5,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormView, DeleteView
 from django.views import View
+from django.contrib import messages
 from .models import Photo, Comment
 from accounts.models import User
 from .forms import PhotoForm, CommentForm
@@ -20,7 +21,9 @@ class PhotoUpdateView(UpdateView):
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        messages.success(self.request, "Photo was successfully updated.")
+        return response
     
     def get_success_url(self):
         return reverse("user_detail", kwargs={"username": self.request.user.username})
@@ -37,7 +40,9 @@ class PhotoCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        messages.success(self.request, "Photo was successfully created.")
+        return response
     
     def get_success_url(self):
         return reverse("user_detail", kwargs={"username": self.request.user.username})
@@ -52,6 +57,11 @@ class PhotoDeleteView(DeleteView):
         # Ensure that a user can only delete their own photos
         query_set = super().get_queryset()
         return query_set.filter(owner=self.request.user)
+    
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        messages.success(request, "Photo was successfully deleted.")
+        return response
 
 class UserDetailGet(DetailView):
     model = User
@@ -81,7 +91,9 @@ class UserDetailPost(SingleObjectMixin, FormView):
         comment.author = self.request.user
         comment.photo = Photo.objects.get(id=self.request.POST.get("photo_id"))
         comment.save()
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        messages.success(self.request, "Comment was successfully created.")
+        return response
     
     def get_success_url(self):
         return reverse("user_detail", kwargs={"username": self.object.username})
@@ -127,6 +139,11 @@ class CommentUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context["submit_button_text"] = "Update Comment"
         return context
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Comment was successfully updated.")
+        return response
 
 class CommentDeleteView(DeleteView):
     model = Comment
@@ -140,3 +157,8 @@ class CommentDeleteView(DeleteView):
         # Redirect to the user's page where the comment was deleted.
         photo = self.get_object().photo
         return reverse("user_detail", kwargs={"username": photo.owner.username})
+    
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        messages.success(request, "Comment was successfully deleted.")
+        return response
