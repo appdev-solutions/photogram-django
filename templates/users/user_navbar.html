@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col md-6 mb-4">
+      <h1>
+        {{ user.username }}
+      </h1>
+  
+      <ul class="nav nav-pills nav-justified">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'user_detail' user.username %}">Posts</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_likes' user.username %}">Liked photos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Feed</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'user_followers' user.username %}">Followers</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Following</a>
+        </li>
+      </ul>
+    </div>
+</div>

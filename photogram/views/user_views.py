@@ -7,6 +7,23 @@ from ..models import Photo
 from accounts.models import User
 from ..forms import CommentForm
 
+class FollowersListView(ListView):
+    model = User
+    template_name = "users/user_followers.html"
+    context_object_name = "followers"
+    slug_field = "username"
+    slug_url_kwarg = "username"
+
+    def get_queryset(self):
+        username = self.kwargs.get("username")
+        self.user = User.objects.get(username=username)
+        return self.user.followers()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["user"] = self.user
+        return context
+
 class UserLikesGet(ListView):
     model = Photo
     template_name = "users/user_likes.html"

@@ -4,8 +4,8 @@
 {% include "./user_navbar.html" with user=user %}
 
 <ul>
-    {% for photo in liked_photos %}
-        {% include "../photos/photo.html" with photo=photo %}
+    {% for follower in followers %}
+        <li>{{ follower.username }}</li>
     {% endfor %}
 </ul>
 {% endblock content %}
