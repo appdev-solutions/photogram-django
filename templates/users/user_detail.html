@@ -12,7 +12,13 @@
     <div class="row mb-4">
         <div class="col-md-6 offset-md-3">
             <div class="card">
-                <div class="card-body py-3 d-flex align-items-center justify-content-between">
+                <div class="card-body py-3 d-flex align-items-center">
+                    <img src="{{ photo.owner.avatar_image }}" class="rounded-circle mr-2" width="36px">
+                    <h5 class="card-title">
+                        <a class="text-dark" href="{% url 'user_detail' photo.owner.username %}">
+                            {{ photo.owner.username }}
+                        </a>
+                    </h5>
                     {% if photo.owner == request.user %}
                         <a href="{% url 'photo_edit' photo.pk %}">
                             <i class="fas fa-edit fa-fw"></i>
@@ -27,7 +33,6 @@
                 </div>
                 <img src="{{ photo.image }}" class="card-img-top">
                 <div class="card-body">
-                    <h5 class="card-title">{{ photo.owner.username }}</h5>
                     <p class="card-text">{{ photo.caption }}</p>
                 </div>
                 {% include "../comments/comment.html" with photo=photo %}

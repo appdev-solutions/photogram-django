@@ -20,7 +20,9 @@
             {% endif %}
             <div class="flex-grow-1 ms-3">
                 <h5 class="mt-0">
-                    {{ comment.author.username }}
+                    <a class="text-dark" href="{% url 'user_detail' comment.author.username %}">
+                        {{ comment.author.username }}
+                    </a>
                 </h5>
                 <p>
                     {{ comment.body }}
