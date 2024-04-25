@@ -24,6 +24,11 @@ class PhotoUpdateView(UpdateView):
     
     def get_success_url(self):
         return reverse("user_detail", kwargs={"username": self.request.user.username})
+    
+    def get_queryset(self):
+        # Ensure that a user can only delete their own photos
+        query_set = super().get_queryset()
+        return query_set.filter(owner=self.request.user)
 
 class PhotoCreateView(CreateView):
     model = Photo
