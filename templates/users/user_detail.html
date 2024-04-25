@@ -12,6 +12,13 @@
     <div class="row mb-4">
         <div class="col-md-6 offset-md-3">
             <div class="card">
+                <div class="card-body py-3 d-flex align-items-center justify-content-between">
+                    {% if photo.owner == user.request %}
+                        <a href="{% url 'photo_edit' photo.pk %}">
+                            <i class="fas fa-edit fa-fw"></i>
+                        </a>
+                    {% endif %}
+                </div>
                 <img src="{{ photo.image }}" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">{{ photo.owner.username }}</h5>
