@@ -44,7 +44,6 @@ class PhotoCreateView(CreateView):
 
 class PhotoDeleteView(DeleteView):
     model = Photo
-    success_url = reverse_lazy("user_detail")
 
     def get_success_url(self):
         return reverse("user_detail", kwargs={"username": self.request.user.username})
