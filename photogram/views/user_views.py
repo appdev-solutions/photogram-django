@@ -6,6 +6,8 @@ from django.contrib import messages
 from ..models import Photo
 from accounts.models import User
 from ..forms import CommentForm
+from django.utils.decorators import method_decorator
+from ..decorators import user_can_comment
 
 class FollowersListView(ListView):
     model = User
@@ -46,6 +48,7 @@ class UserLikesPost(SingleObjectMixin, FormView):
     slug_field = "username"
     slug_url_kwarg = "username"
 
+    @method_decorator(user_can_comment)
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().post(request, *args, **kwargs)
@@ -90,6 +93,7 @@ class UserDetailPost(SingleObjectMixin, FormView):
     slug_field = "username"
     slug_url_kwarg = "username"
 
+    @method_decorator(user_can_comment)
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().post(request, *args, **kwargs)
