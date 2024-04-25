@@ -5,7 +5,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormView, DeleteView
 from django.views import View
-from .models import Photo
+from .models import Photo, Comment
 from accounts.models import User
 from .forms import PhotoForm, CommentForm
 
@@ -94,3 +94,29 @@ class UserDetailView(View):
     def post(self, request, *args, **kwargs):
         view = UserDetailPost.as_view()
         return view(request, *args, **kwargs)
+
+class CommentUpdateView(UpdateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = "comments/comment_form.html"
+
+    def get_queryset(self):
+        # Ensure that a user can only update their own comments
+        queryset = super().get_queryset()
+        return queryset.filter(author=self.request.user)
+    
+    def get_success_url(self):
+        return reverse("user_detail", kwargs={"username": self.request.user.username})
+
+class CommentDeleteView(DeleteView):
+    model = Comment
+
+    def get_queryset(self):
+        # Ensure that a user can only delete their own comments
+        queryset = super().get_queryset()
+        return queryset.filter(author=self.request.user)
+    
+    def get_success_url(self):
+        # Redirect to the user's page where the comment was deleted.
+        photo = self.get_object().photo
+        return reverse("user_detail", kwargs={"username": photo.owner.username})
