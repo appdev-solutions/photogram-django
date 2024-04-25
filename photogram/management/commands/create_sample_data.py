@@ -34,18 +34,15 @@ class Command(BaseCommand):
 
         for first_user in users:
             for second_user in users:
-                if first_user == second_user:
-                    break
-
-                if random.random() < 0.75:
+                if first_user != second_user:
                     FollowRequest.objects.create(
                         sender=first_user,
                         recipient=second_user,
                         status=random.choice(["accepted", "rejected", "pending"])
-                    )
+                    )   
 
         for user in users:
-            for _ in range(random.randint(0, 30)):
+            for _ in range(random.randint(5, 10)):
                 photo = Photo.objects.create(
                     caption=faker.text(),
                     owner=user,
@@ -56,7 +53,7 @@ class Command(BaseCommand):
                     if random.random() < 0.75:
                         Like.objects.create(photo=photo, fan=follower)
 
-                    if random.random() < 0.5:
+                    if random.random() < 0.75:
                         Comment.objects.create(
                             body=faker.text(),
                             photo=photo,
