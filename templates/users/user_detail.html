@@ -35,7 +35,14 @@
                 <div class="card-body">
                     <p class="card-text">{{ photo.caption }}</p>
                 </div>
-                {% include "../comments/comment.html" with photo=photo %}
+                <ul class="list-group list-group-flush">
+                    {% for comment in photo.comments.all %}
+                        {% include "../comments/comment.html" with photo=photo comment=comment %}
+                    {% endfor %}
+                </ul>
+                <div class="card-body">
+                    {% include "../comments/comment_form.html" with photo=photo submit_button_text="Create Comment" %}
+                </div>
             </div>
         </div>
     </div>

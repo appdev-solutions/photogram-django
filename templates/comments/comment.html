@@ -1,37 +1,30 @@
-<ul class="list-group list-group-flush">
-    {% for comment in photo.comments.all %}
-    <li class="list-group-item">
-        <div class="d-flex">
-            <div class="flex-shrink-0">
-                <img src="{{ comment.author.avatar_image }}" class="rounded-circle mr-2" width="36px">
-            </div>
-            {% if comment.author == request.user %}
-            <div>
-                <a href="{% url 'comment_edit' comment.pk %}">
-                    <i class="fas fa-edit fa-fw"></i>
-                </a>
-                <form action="{% url 'comment_delete' comment.pk %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-link">
-                        <i class="fas fa-trash fa-fw"></i>
-                    </button>
-                </form>
-            </div>
-            {% endif %}
-            <div class="flex-grow-1 ms-3">
-                <h5 class="mt-0">
-                    <a class="text-dark" href="{% url 'user_detail' comment.author.username %}">
-                        {{ comment.author.username }}
-                    </a>
-                </h5>
-                <p>
-                    {{ comment.body }}
-                </p>
-            </div>
+<li class="list-group-item">
+    <div class="d-flex">
+        <div class="flex-shrink-0">
+            <img src="{{ comment.author.avatar_image }}" class="rounded-circle mr-2" width="36px">
         </div>
-    </li>
-    {% endfor %}
-</ul>
-<div class="card-body">
-    {% include "./comment_form.html" with photo=photo submit_button_text="Create Comment" %}
-</div>
+        {% if comment.author == request.user %}
+        <div>
+            <a href="{% url 'comment_edit' comment.pk %}">
+                <i class="fas fa-edit fa-fw"></i>
+            </a>
+            <form action="{% url 'comment_delete' comment.pk %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-link">
+                    <i class="fas fa-trash fa-fw"></i>
+                </button>
+            </form>
+        </div>
+        {% endif %}
+        <div class="flex-grow-1 ms-3">
+            <h5 class="mt-0">
+                <a class="text-dark" href="{% url 'user_detail' comment.author.username %}">
+                    {{ comment.author.username }}
+                </a>
+            </h5>
+            <p>
+                {{ comment.body }}
+            </p>
+        </div>
+    </div>
+</li>
