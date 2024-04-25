@@ -1,0 +1,27 @@
+<ul class="list-group list-group-flush">
+    {% for comment in photo.comments.all %}
+    <li class="list-group-item">
+        <div class="d-flex">
+            <div class="flex-shrink-0">
+                <img src="{{ comment.author.avatar_image }}" class="rounded-circle mr-2" width="36px">
+            </div>
+            <div class="flex-grow-1 ms-3">
+                <h5 class="mt-0">
+                    {{ comment.author.username }}
+                </h5>
+                <p>
+                    {{ comment.body }}
+                </p>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+<div class="card-body">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" name="photo_id" value="{{ photo.id }}">
+        <button type="submit" class="btn btn-primary">Add Comment</button>
+    </form>
+</div>
