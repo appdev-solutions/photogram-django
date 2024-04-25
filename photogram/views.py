@@ -99,14 +99,29 @@ class CommentUpdateView(UpdateView):
     model = Comment
     form_class = CommentForm
     template_name = "comments/comment_form.html"
+    # Add an attribute to store the photo object
+    photo = None
 
     def get_queryset(self):
         # Ensure that a user can only update their own comments
         queryset = super().get_queryset()
         return queryset.filter(author=self.request.user)
+
+    def get(self, request, *args, **kwargs):
+        # Store the photo object when the comment form is fetched (GET)
+        self.object = self.get_object()
+        self.photo = self.object.photo
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        # Store the photo object when the comment is submitted (POST)
+        self.object = self.get_object()
+        self.photo = self.object.photo
+        return super().post(request, *args, **kwargs)
     
     def get_success_url(self):
-        return reverse("user_detail", kwargs={"username": self.request.user.username})
+        # Redirect to the photo owner's user detail page
+        return reverse("user_detail", kwargs={"username": self.photo.owner.username})
 
 class CommentDeleteView(DeleteView):
     model = Comment
