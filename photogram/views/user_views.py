@@ -1,4 +1,4 @@
-from django.views.generic import DetailView, FormView
+from django.views.generic import DetailView, FormView, ListView
 from django.urls import reverse
 from django.views.generic.detail import SingleObjectMixin
 from django.views import View
@@ -6,6 +6,16 @@ from django.contrib import messages
 from ..models import Photo
 from accounts.models import User
 from ..forms import CommentForm
+
+class UserLikes(ListView):
+    model = Photo
+    template_name = "users/user_likes.html"
+    context_object_name = "liked_photos"
+
+    def get_queryset(self):
+        username = self.kwargs.get("username")
+        user = User.objects.get(username=username)
+        return user.liked_photos()
 
 class UserDetailGet(DetailView):
     model = User
