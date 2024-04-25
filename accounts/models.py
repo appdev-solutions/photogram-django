@@ -10,13 +10,13 @@ class User(AbstractUser):
         # to prevent circular imports (User is imported in our other models file)
         # we only import the Photo model inside the method
         from photogram.models import Photo
-        return Photo.objects.filter(likes__user=self)
+        return Photo.objects.filter(likes__fan=self)
     
     def leaders(self):
-        return User.objects.filter(sent_follow_requests__sender=self, sent_follow_requests__status="accepted")
+        return User.objects.filter(sent_follow_requests__recipient=self, sent_follow_requests__status="accepted")
 
     def followers(self):
-        return User.objects.filter(received_follow_requests__recipient=self, received_follow_requests__status="accepted")
+        return User.objects.filter(received_follow_requests__sender=self, received_follow_requests__status="accepted")
 
     def feed(self):
         from photogram.models import Photo
@@ -26,9 +26,5 @@ class User(AbstractUser):
     def discover(self):
         from photogram.models import Photo
         leaders = self.leaders()
-        # Start with an empty QuerySet
-        photos = Photo.objects.none()
-        for leader in leaders:
-            # Use the |= operator to merge QuerySets
-            photos |= leader.liked_photos()
+        photos = Photo.objects.filter(likes__fan__in=leaders).distinct()
         return photos
