@@ -98,7 +98,7 @@ class UserDetailView(View):
 class CommentUpdateView(UpdateView):
     model = Comment
     form_class = CommentForm
-    template_name = "comments/comment_form.html"
+    template_name = "comments/comment_update.html"
     # Add an attribute to store the photo object
     photo = None
 
@@ -122,6 +122,11 @@ class CommentUpdateView(UpdateView):
     def get_success_url(self):
         # Redirect to the photo owner's user detail page
         return reverse("user_detail", kwargs={"username": self.photo.owner.username})
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["submit_button_text"] = "Update Comment"
+        return context
 
 class CommentDeleteView(DeleteView):
     model = Comment

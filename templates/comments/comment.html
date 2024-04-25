@@ -31,5 +31,5 @@
     {% endfor %}
 </ul>
 <div class="card-body">
-    {% include "./comment_form.html" %}
+    {% include "./comment_form.html" with photo=photo submit_button_text="Create Comment" %}
 </div>
