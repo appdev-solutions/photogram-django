@@ -17,6 +17,12 @@
                         <a href="{% url 'photo_edit' photo.pk %}">
                             <i class="fas fa-edit fa-fw"></i>
                         </a>
+                        <form action="{% url 'photo_delete' photo.pk %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-link">
+                                <i class="fas fa-trash fa-fw"></i>
+                            </button>
+                        </form>
                     {% endif %}
                 </div>
                 <img src="{{ photo.image }}" class="card-img-top">

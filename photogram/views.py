@@ -1,9 +1,9 @@
 from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView
 )
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, DeleteView
 from django.views import View
 from .models import Photo
 from accounts.models import User
@@ -36,6 +36,18 @@ class PhotoCreateView(CreateView):
     
     def get_success_url(self):
         return reverse("user_detail", kwargs={"username": self.request.user.username})
+
+class PhotoDeleteView(DeleteView):
+    model = Photo
+    success_url = reverse_lazy("user_detail")
+
+    def get_success_url(self):
+        return reverse("user_detail", kwargs={"username": self.request.user.username})
+    
+    def get_queryset(self):
+        # Ensure that a user can only delete their own photos
+        query_set = super().get_queryset()
+        return query_set.filter(owner=self.request.user)
 
 class UserDetailGet(DetailView):
     model = User
